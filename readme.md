@@ -11,7 +11,7 @@ When implementing a new feature or fixing a bug, please create a new pull reques
 ## First setup
 To run the frontend and backend, install Docker [here](https://docs.docker.com/get-docker/).
 
-Verify Docker is running with ```docker v``` and ```docker-compose-v``` in the terminal.
+Verify Docker is running with ```docker -v``` and ```docker-compose -v``` in the terminal.
 
 If Docker is working, test backend by pointing to browser to [http://localhost:3000/api/ping](http://localhost:3000/api/ping)
 
