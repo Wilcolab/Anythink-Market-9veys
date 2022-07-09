@@ -1,27 +1,42 @@
 // dependencies
 const mongoose = require('mongoose');
+const { faker } = require('@faker-js/faker');
 
 require('../models/User');
 const User = mongoose.model('User');
 
-// const User = require('../models/User');
-// const Comment = require('../models/Comment');
-// const Item = require('../models/Item');
+require('../models/Item');
+const Item = mongoose.model('Item');
+
+require('../models/Comment');
+const Comment = mongoose.model('Comment');
 
 mongoose.connect(process.env.MONGODB_URI);
 
+// let seededUsers = (100) => [
+//     {
+//         username: faker.name.firstName(),
+//         email: faker.internet.email(),
+//         password: faker.random.word()
+//     }
+// ]
 
-const seedUsers = [
-    {
-        username: 'JordanChude',
-        email: 'test@testemail.com',
-        password: 'thisisatestpassword'
+let generatedUsers = [];
+
+
+for (let i = 0; i <= 100; i++) {
+    let user = {
+        username: faker.name.firstName(),
+        email: faker.internet.email(),
+        password: faker.random.word()
     }
-]
+
+    generatedUsers.push(user);
+}
 
 const seedDB = async () => {
-    // await User.deleteMany({});
-    await User.insertMany(seedUsers);
+    await User.deleteMany({});
+    await User.insertMany(generatedUsers);
 }
 
 
