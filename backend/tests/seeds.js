@@ -11,40 +11,65 @@ const Item = mongoose.model('Item');
 require('../models/Comment');
 const Comment = mongoose.model('Comment');
 
-mongoose.connect(process.env.MONGODB_URI);
+let generatedUsers = [{
+    username: 'jordanchude',
+    email: 'test@test.com',
+    password: 'testpassword'
+}];
 
-let generatedUsers = [];
-let generatedItems = [];
+// let generatedItems = [];
 
 
-for (let i = 1; i <= 100; i++) {
-    let user = {
-        username: faker.name.firstName(),
-        email: faker.internet.email(),
-        password: faker.random.word()
-    }
+// for (let i = 1; i <= 100; i++) {
+//     let user = {
+//         username: faker.name.firstName(),
+//         email: faker.internet.email(),
+//         password: faker.random.word()
+//     }
 
-    generatedUsers.push(user);
-}
+//     generatedUsers.push(user);
+// }
 
-for (let i = 1; i <= 100; i++) {
-    let item = {
-        title: faker.lorem.word(),
-        image: faker.image.imageUrl()
-    }
+// for (let i = 1; i <= 100; i++) {
+//     let item = {
+//         title: faker.lorem.word(),
+//         image: faker.image.imageUrl()
+//     }
 
-    generatedItems.push(item);
-}
+//     generatedItems.push(item);
+// }
 
 const seedDB = async () => {
-    await User.deleteMany({});
-    await User.insertMany(generatedUsers);
+    const deleteResult = await User.deleteMany({});
 
-    await Item.deleteMany({});
-    await Item.insertMany(generatedItems);
+    for (let i = 0; i < generatedUsers.length; i++) {
+        var user = new User();
+
+        user.username = generatedUsers[i].username;
+        user.email = generatedUsers[i].email;
+        user.setPassword(generatedUsers[i].password);
+
+        let savedUser = await user.save();
+        console.log(savedUser);
+        console.log(mongoose.connection.db)
+    }
+    // const insertResult = await User.insertMany(generatedUsers);
+
+    // await Item.deleteMany({});
+    // await Item.insertMany(generatedItems);
+
+    // console.log(deleteResult, insertResult);
 }
 
-
-seedDB().then(() => {
-    mongoose.connection.close();
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true, useUnifiedTopology: true
+}).then(() => {
+    seedDB().then(() => {
+        mongoose.connection.close();
+    }).then(() => {
+        console.log("Mongo connection closed!")
+    })
+    console.log('Mongo connection open!')
+}).catch((err) => {
+    console.log(err);
 })
