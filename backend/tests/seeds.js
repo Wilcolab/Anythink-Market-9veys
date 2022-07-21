@@ -52,6 +52,8 @@ const seedDB = async () => {
         let savedUser = await user.save();
         console.log(savedUser);
         console.log(mongoose.connection.db)
+        let queryResult = await mongoose.connection.db.listCollections()
+        console.log(queryResult);
     }
     // const insertResult = await User.insertMany(generatedUsers);
 
