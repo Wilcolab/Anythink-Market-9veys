@@ -41,19 +41,23 @@ let generatedUsers = [{
 
 const seedDB = async () => {
     const deleteResult = await User.deleteMany({});
+    const existingUsers = await User.find({});
+    console.log('existingUsers');
+    console.log(existingUsers);
 
-    for (let i = 0; i < generatedUsers.length; i++) {
+    for (const u of generatedUsers) {
         var user = new User();
 
-        user.username = generatedUsers[i].username;
-        user.email = generatedUsers[i].email;
-        user.setPassword(generatedUsers[i].password);
+        user.username = u.username;
+        user.email = u.email;
+        user.setPassword(u.password);
 
         let savedUser = await user.save();
+        console.log('savedUser')
         console.log(savedUser);
         console.log(mongoose.connection.db)
-        let queryResult = await mongoose.connection.db.listCollections()
-        console.log(queryResult);
+        // let queryResult = await mongoose.connection.db.listCollections()
+        // console.log(queryResult);
     }
     // const insertResult = await User.insertMany(generatedUsers);
 
@@ -63,9 +67,9 @@ const seedDB = async () => {
     // console.log(deleteResult, insertResult);
 }
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true, useUnifiedTopology: true
-}).then(() => {
+console.log(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+    mongoose.set("debug", true);
     seedDB().then(() => {
         mongoose.connection.close();
     }).then(() => {
