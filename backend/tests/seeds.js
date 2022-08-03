@@ -14,7 +14,7 @@ const Comment = mongoose.model('Comment');
 const generateUsers = async (userNumber) => {
     let generatedUsers = []
 
-    for (let i = 0; i <= userNumber; i++) {
+    for (let i = 1; i < userNumber; i++) {
         let currentUser = {
             username: faker.name.firstName(),
             email: faker.internet.email(),
@@ -34,6 +34,14 @@ const generateUsers = async (userNumber) => {
         await userToSave.save();
     }
 }
+
+// const generateItems = async (itemNumber) => {
+//     let generatedItems = []
+
+//     for (let i = 1; i <= generatedItems; i++) {
+        
+//     }
+// }
 
 const seedDB = async () => {
     // seed users;
