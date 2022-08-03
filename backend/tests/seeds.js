@@ -11,24 +11,40 @@ const Item = mongoose.model('Item');
 require('../models/Comment');
 const Comment = mongoose.model('Comment');
 
-let generatedUsers = [{
-    username: 'jordanchude',
-    email: 'test@test.com',
-    password: 'testpassword'
-}];
+// let generatedUsers = [{
+//     username: 'jordanchude',
+//     email: 'test@test.com',
+//     password: 'testpassword'
+// }];
+
+
+const generateUsers = (userNumber) => {
+    let generatedUsers = []
+
+    for (let i = 1; i <= userNumber; i++) {
+        let currentUser = {
+            username: faker.name.firstName(),
+            email: faker.internet.email(),
+            password: faker.random.word()
+        }
+
+        generatedUsers.push(currentUser);
+    }
+
+    // for (const u of generatedUsers) {
+    //     var userToSave = new User();
+
+    //     user.username = u.username;
+    //     user.email = u.email;
+    //     user.setPassword(u.password);
+
+    //     let savedUser = await user.save();
+    // }
+}
+
+generateUsers(100);
 
 // let generatedItems = [];
-
-
-// for (let i = 1; i <= 100; i++) {
-//     let user = {
-//         username: faker.name.firstName(),
-//         email: faker.internet.email(),
-//         password: faker.random.word()
-//     }
-
-//     generatedUsers.push(user);
-// }
 
 // for (let i = 1; i <= 100; i++) {
 //     let item = {
@@ -40,25 +56,25 @@ let generatedUsers = [{
 // }
 
 const seedDB = async () => {
-    const deleteResult = await User.deleteMany({});
-    const existingUsers = await User.find({});
-    console.log('existingUsers');
-    console.log(existingUsers);
+    // const deleteResult = await User.deleteMany({});
+    // const existingUsers = await User.find({});
+    // console.log('existingUsers');
+    // console.log(existingUsers);
 
-    for (const u of generatedUsers) {
-        var user = new User();
+    // for (const u of generatedUsers) {
+    //     var user = new User();
 
-        user.username = u.username;
-        user.email = u.email;
-        user.setPassword(u.password);
+    //     user.username = u.username;
+    //     user.email = u.email;
+    //     user.setPassword(u.password);
 
-        let savedUser = await user.save();
-        console.log('savedUser')
-        console.log(savedUser);
-        console.log(mongoose.connection.db)
+    //     let savedUser = await user.save();
+    //     console.log('savedUser')
+    //     console.log(savedUser);
+    //     console.log(mongoose.connection.db)
         // let queryResult = await mongoose.connection.db.listCollections()
         // console.log(queryResult);
-    }
+    // }
     // const insertResult = await User.insertMany(generatedUsers);
 
     // await Item.deleteMany({});
@@ -67,7 +83,7 @@ const seedDB = async () => {
     // console.log(deleteResult, insertResult);
 }
 
-console.log(process.env.MONGODB_URI);
+// console.log(process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI).then(() => {
     mongoose.set("debug", true);
     seedDB().then(() => {
