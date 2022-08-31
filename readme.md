@@ -15,6 +15,10 @@ Verify Docker is running with ```docker -v``` and ```docker-compose -v``` in the
 
 Confirm that you run all scripts on one of the containers created by ```docker-compose up``` or use ```docker exec``` to run commands on a running container.
 
+Execute a command on a running container with ```docker exec -it anythink-backend bash```.
+
+Execute command to run mongodb container with ```docker exec -it mongodb mongo```.
+
 If Docker is working, test backend by pointing to browser to [http://localhost:3000/api/ping](http://localhost:3000/api/ping)
 
 Test frontend and make sure it's connected to backend by creating new user here: [http://localhost:3001/register](http://localhost:3001/register)

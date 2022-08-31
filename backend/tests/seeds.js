@@ -18,9 +18,9 @@ const generateUsers = async (userNumber) => {
         let currentUser = {
             username: faker.name.firstName(),
             email: faker.internet.email(),
-            password: faker.random.word()
+            password: 'faker.random.word()'
         }
-        console.log(currentUser);
+        // console.log(currentUser);
         generatedUsers.push(currentUser);
     }
 
@@ -50,7 +50,7 @@ const seedDB = async () => {
 }
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
-    console.log(mongoose.Collection.dbName);
+    console.log(`MongoDB Database: ${mongoose.Collection.dbName}`);
     mongoose.set("debug", true);
     seedDB().then(() => {
         mongoose.connection.close();
