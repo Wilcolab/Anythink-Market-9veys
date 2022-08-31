@@ -13,10 +13,10 @@ To run the frontend and backend, install Docker [here](https://docs.docker.com/g
 
 Verify Docker is running with ```docker -v``` and ```docker-compose -v``` in the terminal.
 
+Confirm that you run all scripts on one of the containers created by ```docker-compose up``` or use ```docker exec``` to run commands on a running container.
+
 If Docker is working, test backend by pointing to browser to [http://localhost:3000/api/ping](http://localhost:3000/api/ping)
 
 Test frontend and make sure it's connected to backend by creating new user here: [http://localhost:3001/register](http://localhost:3001/register)
-
-Confirm that you run all scripts on one of the containers created by ```docker-compose up``` or use ```docker exec``` to run commands on a running container.
 
 **[TODO 05/01/2018 @vanessa-cooper]:** _It's been a while since anyone ran a fresh copy of this repo. I think it's worth documenting the steps needed to install and run the repo on a new machine?_
