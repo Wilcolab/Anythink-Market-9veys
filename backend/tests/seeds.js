@@ -11,16 +11,19 @@ const Item = mongoose.model('Item');
 require('../models/Comment');
 const Comment = mongoose.model('Comment');
 
+// Users, items, and comments
+let generatedUsers = []
+let generatedItems = []
+
 const generateUsers = async (userNumber) => {
-    let generatedUsers = []
 
     for (let i = 1; i < userNumber; i++) {
         let currentUser = {
             username: faker.name.firstName(),
             email: faker.internet.email(),
-            password: 'faker.random.word()'
+            password: faker.random.word()
         }
-        // console.log(currentUser);
+        console.log(currentUser);
         generatedUsers.push(currentUser);
     }
 
@@ -35,18 +38,45 @@ const generateUsers = async (userNumber) => {
     }
 }
 
-// const generateItems = async (itemNumber) => {
-//     let generatedItems = []
+const generateItems = async (usersForItems) => {
 
-//     for (let i = 1; i <= generatedItems; i++) {
+    for (let i = 1; i <= usersForItems; i++) {
         
-//     }
-// }
+        let currentItem = {
+            title: faker.vehicle.vehicle(),
+            description: faker.color.human(),
+            image: faker.image.abstract(),
+        }
+
+        console.log(currentItem);
+        generatedItems.push(currentItem);
+    }
+
+    console.log(generatedItems);
+
+    for (const generatedItem of generatedItems) {
+        var itemToSave = new Item(generatedItem);
+
+        for (let i = 0; i < generatedUsers.length; i++) {
+            let user = generatedUsers[i].username
+            let username = await User.findOne({username: user})
+            itemToSave.seller = username;
+        }
+        
+        await itemToSave.save();
+    }
+}
+
+const generateAll = async (total) => {
+    await generateUsers(total);
+    await generateItems(total);
+    // await generateComments(total);
+}
 
 const seedDB = async () => {
-    // seed users;
+    await Item.deleteMany({});
     await User.deleteMany({});
-    await generateUsers(100);
+    await generateAll(3)
 }
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -61,3 +91,16 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 }).catch((err) => {
     console.log(err);
 })
+
+// async function createDependentItems() {
+//     // Create the first item
+//     const item1 = await Item.create({
+//       name: 'Item 1',
+//     });
+  
+//     // Create the second item, which depends on the first item
+//     const item2 = await Item.create({
+//       name: 'Item 2',
+//       dependency: item1._id,
+//     });
+//   }
