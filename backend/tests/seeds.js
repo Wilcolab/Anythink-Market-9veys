@@ -42,7 +42,7 @@ const generateUsers = async (userNumber) => {
 
 const generateItems = async (usersForItems) => {
 
-    for (let i = 1; i <= usersForItems; i++) {
+    for (let i = 0; i < usersForItems; i++) {
         
         let currentItem = {
             title: faker.vehicle.vehicle(),
