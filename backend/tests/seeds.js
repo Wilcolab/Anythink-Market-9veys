@@ -12,18 +12,20 @@ require('../models/Comment');
 const Comment = mongoose.model('Comment');
 
 // Users, items, and comments
-let generatedUsers = []
-let generatedItems = []
+const generatedUsers = []
+const generatedItems = []
+const generatedComments = [];
+
 
 const generateUsers = async (userNumber) => {
 
-    for (let i = 1; i < userNumber; i++) {
+    for (let i = 0; i < userNumber; i++) {
         let currentUser = {
             username: faker.name.firstName(),
             email: faker.internet.email(),
-            password: faker.random.word()
+            password: 'faker.random.word()'
         }
-        console.log(currentUser);
+        
         generatedUsers.push(currentUser);
     }
 
@@ -40,7 +42,7 @@ const generateUsers = async (userNumber) => {
 
 const generateItems = async (usersForItems) => {
 
-    for (let i = 1; i <= usersForItems; i++) {
+    for (let i = 0; i <= usersForItems; i++) {
         
         let currentItem = {
             title: faker.vehicle.vehicle(),
@@ -48,11 +50,8 @@ const generateItems = async (usersForItems) => {
             image: faker.image.abstract(),
         }
 
-        console.log(currentItem);
         generatedItems.push(currentItem);
     }
-
-    console.log(generatedItems);
 
     for (const generatedItem of generatedItems) {
         var itemToSave = new Item(generatedItem);
@@ -67,16 +66,54 @@ const generateItems = async (usersForItems) => {
     }
 }
 
+const generateComments = async (itemComments) => { 
+    let commentToAdd;
+    let itemForComment;
+
+    for (let i = 0; i < itemComments; i++) {
+        let commentToAdd = {
+            body: faker.word.adjective(),
+        }
+        
+        generatedComments.push(commentToAdd);
+    }
+
+    for (const generatedComment of generatedComments) {
+
+        for (let i = 0; i < generatedItems.length; i++) {
+            let item = generatedItems[i].title;
+            itemForComment = await Item.findOne({title: item});
+            console.log(itemForComment);
+
+            commentToAdd = new Comment(generatedComment);
+            await commentToAdd.save();
+            await itemForComment.comments.push(commentToAdd);
+            await itemForComment.save();
+        }
+
+        for (let i = 0; i < generatedUsers; i++) {
+            let user = generatedUsers[i].username;
+            let userForComment = await User.find({username: user});
+
+            commentToAdd.seller = userForComment;
+            await commentToAdd.save();
+        }
+
+    }
+        
+}
+
 const generateAll = async (total) => {
     await generateUsers(total);
     await generateItems(total);
-    // await generateComments(total);
+    await generateComments(total);
 }
 
 const seedDB = async () => {
     await Item.deleteMany({});
     await User.deleteMany({});
-    await generateAll(3)
+    await Comment.deleteMany({});
+    await generateAll(3);
 }
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -91,16 +128,3 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 }).catch((err) => {
     console.log(err);
 })
-
-// async function createDependentItems() {
-//     // Create the first item
-//     const item1 = await Item.create({
-//       name: 'Item 1',
-//     });
-  
-//     // Create the second item, which depends on the first item
-//     const item2 = await Item.create({
-//       name: 'Item 2',
-//       dependency: item1._id,
-//     });
-//   }
