@@ -69,6 +69,7 @@ const generateItems = async (usersForItems) => {
 const generateComments = async (itemComments) => { 
     let commentToAdd;
     let itemForComment;
+    let userForComment;
 
     for (let i = 0; i < itemComments; i++) {
         let commentToAdd = {
@@ -78,29 +79,36 @@ const generateComments = async (itemComments) => {
         generatedComments.push(commentToAdd);
     }
 
-    for (const generatedComment of generatedComments) {
+    for (let i = 0; i < generatedComments.length; i++) {
+        const user = await User.findOne({username: generatedUsers[i].username})
+        const item = await Item.findOne({title: generatedItems[i].title})
 
-        for (let i = 0; i < generatedItems.length; i++) {
-            let item = generatedItems[i].title;
-            itemForComment = await Item.findOne({title: item});
-            console.log(itemForComment);
+        const commentToSave = new Comment({
+            body: generatedComments[i].body,
+        });
 
-            commentToAdd = new Comment(generatedComment);
-            await commentToAdd.save();
-            await itemForComment.comments.push(commentToAdd);
-            await itemForComment.save();
+        commentToSave.seller = user,
+        commentToSave.item = item
+
+        await commentToSave.save();
+
+        try {
+            // const updatedItem = await Item.findOneAndUpdate(
+            //     { title: item.title }, // filter to find the correct item
+            //     { $push: { comments: commentToSave } }, // update the comments array by adding the new comment
+            //     { new: true }
+            // );
+
+            item.comments.push(commentToSave);
+            
+            await updatedItem.save();
+
+            console.log(updatedItem);
+
+        } catch (error) { 
+            console.log(error)
         }
-
-        for (let i = 0; i < generatedUsers; i++) {
-            let user = generatedUsers[i].username;
-            let userForComment = await User.find({username: user});
-
-            commentToAdd.seller = userForComment;
-            await commentToAdd.save();
-        }
-
     }
-        
 }
 
 const generateAll = async (total) => {
