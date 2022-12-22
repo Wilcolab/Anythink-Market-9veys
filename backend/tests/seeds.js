@@ -42,7 +42,7 @@ const generateUsers = async (userNumber) => {
 
 const generateItems = async (usersForItems) => {
 
-    for (let i = 0; i <= usersForItems; i++) {
+    for (let i = 1; i <= usersForItems; i++) {
         
         let currentItem = {
             title: faker.vehicle.vehicle(),
@@ -67,10 +67,6 @@ const generateItems = async (usersForItems) => {
 }
 
 const generateComments = async (itemComments) => { 
-    let commentToAdd;
-    let itemForComment;
-    let userForComment;
-
     for (let i = 0; i < itemComments; i++) {
         let commentToAdd = {
             body: faker.word.adjective(),
@@ -83,27 +79,21 @@ const generateComments = async (itemComments) => {
         const user = await User.findOne({username: generatedUsers[i].username})
         const item = await Item.findOne({title: generatedItems[i].title})
 
-        const commentToSave = new Comment({
+        const commentToSave = await new Comment({
             body: generatedComments[i].body,
+            seller: user,
+            item: item
         });
 
-        commentToSave.seller = user,
-        commentToSave.item = item
+        console.log(`COMMENT TO SAVE ${commentToSave}`);
 
         await commentToSave.save();
 
         try {
-            // const updatedItem = await Item.findOneAndUpdate(
-            //     { title: item.title }, // filter to find the correct item
-            //     { $push: { comments: commentToSave } }, // update the comments array by adding the new comment
-            //     { new: true }
-            // );
-
-            item.comments.push(commentToSave);
-            
-            await updatedItem.save();
-
-            console.log(updatedItem);
+            await Item.updateOne(
+                { title: item.title }, // filter to find the correct item
+                { $push: { comments: commentToSave } }, // update the comments array by adding the new comment
+            );
 
         } catch (error) { 
             console.log(error)
