@@ -21,9 +21,9 @@ const generateUsers = async (userNumber) => {
 
     for (let i = 0; i < userNumber; i++) {
         let currentUser = {
-            username: faker.name.firstName(),
+            username: faker.name.findName().replace(/[^a-zA-Z0-9]/g, ''),
             email: faker.internet.email(),
-            password: 'faker.random.word()'
+            password: faker.random.word()
         }
         
         generatedUsers.push(currentUser);
@@ -111,7 +111,7 @@ const seedDB = async () => {
     await Item.deleteMany({});
     await User.deleteMany({});
     await Comment.deleteMany({});
-    await generateAll(3);
+    await generateAll(100);
 }
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
