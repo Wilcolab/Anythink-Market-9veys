@@ -2,7 +2,7 @@
 
 // dependencies
 const mongoose = require('mongoose');
-const { faker } = require('@faker-js/faker');
+// const { faker } = require('@faker-js/faker');
 
 require('../models/User');
 const User = mongoose.model('User');
@@ -22,11 +22,17 @@ const generatedComments = [];
 const generateUsers = async (userNumber) => {
 
     for (let i = 0; i < userNumber; i++) {
+        // let currentUser = {
+        //     username: faker.name.firstName().replace(/[^a-zA-Z0-9]/g, ''),
+        //     email: faker.internet.email(),
+        //     password: faker.random.word()
+        // }
+
         let currentUser = {
-            username: faker.name.firstName().replace(/[^a-zA-Z0-9]/g, ''),
-            email: faker.internet.email(),
-            password: faker.random.word()
-        }
+                username: `username${i}`,
+                email: `email${i}@email.com`,
+                password: `password${i}`
+            }
         
         generatedUsers.push(currentUser);
     }
@@ -47,9 +53,9 @@ const generateItems = async (usersForItems) => {
     for (let i = 1; i <= usersForItems; i++) {
         
         let currentItem = {
-            title: faker.vehicle.vehicle(),
-            description: faker.color.human(),
-            image: faker.image.abstract(),
+            title: `title${i}`,
+            description: `description${i}`,
+            image: `image${i}`,
         }
 
         generatedItems.push(currentItem);
@@ -71,7 +77,7 @@ const generateItems = async (usersForItems) => {
 const generateComments = async (itemComments) => { 
     for (let i = 0; i < itemComments; i++) {
         let commentToAdd = {
-            body: faker.word.adjective(),
+            body: `commentBody${i}`,
         }
         
         generatedComments.push(commentToAdd);
