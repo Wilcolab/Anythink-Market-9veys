@@ -21,7 +21,7 @@ const generateUsers = async (userNumber) => {
 
     for (let i = 0; i < userNumber; i++) {
         let currentUser = {
-            username: faker.name.findName().replace(/[^a-zA-Z0-9]/g, ''),
+            username: faker.name.firstName().replace(/[^a-zA-Z0-9]/g, ''),
             email: faker.internet.email(),
             password: faker.random.word()
         }
