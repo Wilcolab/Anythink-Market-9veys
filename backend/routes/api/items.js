@@ -55,6 +55,7 @@ router.get("/", auth.optional, function(req, res, next) {
 
   if (typeof req.query.title !== "undefined") {
     query.titleList = { $in: [req.query.title] };
+    limit = 1;
   }
 
   Promise.all([
@@ -80,7 +81,6 @@ router.get("/", auth.optional, function(req, res, next) {
           .limit(Number(limit))
           .skip(Number(offset))
           .sort({ createdAt: "desc" })
-          .limit(1)
           .exec(),
         Item.count(query).exec(),
         req.payload ? User.findById(req.payload.id) : null
