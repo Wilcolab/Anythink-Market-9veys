@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const SearchBox = () => {
     const [searchValue, setSearchValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
-    
+
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
-        if (searchValue.length >= 3) {
-            getData();
-        }
     }
+    
+    useEffect(() => {
+     if (searchValue.length >= 3) {
+        getData();
+     }
+    }, [searchValue]);
     
 
     const getData = async () => {
