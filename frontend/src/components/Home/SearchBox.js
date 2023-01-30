@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ItemList from '../ItemList';
 import axios from 'axios';
 
 const SearchBox = () => {
@@ -25,7 +26,8 @@ const SearchBox = () => {
     }
     return (
         <div>
-            <input type="text" class="form-control" placeholder="What is it that you truly desire?" aria-label="search-box" aria-describedby="basic-addon1" value={searchValue} result={suggestions} onChange={handleSearchChange}/>
+            <input type="text" class="form-control" placeholder="What is it that you truly desire?" aria-label="search-box" aria-describedby="basic-addon1" value={searchValue} onChange={handleSearchChange}/>
+            <ItemList items={suggestions}/>
         </div>
     );
 };
