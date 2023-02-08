@@ -17,12 +17,18 @@ const SearchBox = () => {
     
 
     const getData = async () => {
-        await fetch(`http://localhost:3000/api/items?title=${searchValue}`)
-        .then(res => {
-            const titles = res.data.items;
-            setSuggestions(titles);
-        })
-    }
+        try {
+          const res = await fetch(`http://localhost:3000/api/items?title=${searchValue}`);
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          const data = await res.json();
+          setSuggestions(data.items);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      
 
     return (
         <div>
