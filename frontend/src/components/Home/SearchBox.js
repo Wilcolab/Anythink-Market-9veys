@@ -20,10 +20,11 @@ const SearchBox = () => {
     const getData = async () => {
         await axios.get(`http://localhost:3000/api/items?title=${searchValue}`)
         .then(res => {
-            const titles = res.data;
+            const titles = res.data.items;
             setSuggestions(titles);
         })
     }
+
     return (
         <div>
             <input type="text" class="form-control" placeholder="What is it that you truly desire?" aria-label="search-box" aria-describedby="basic-addon1" value={searchValue} onChange={handleSearchChange}/>
