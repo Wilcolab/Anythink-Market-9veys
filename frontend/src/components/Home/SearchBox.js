@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ItemList from '../ItemList';
-import axios from 'axios';
 
 const SearchBox = () => {
     const [searchValue, setSearchValue] = useState('');
@@ -18,7 +17,7 @@ const SearchBox = () => {
     
 
     const getData = async () => {
-        await axios.get(`http://localhost:3000/api/items?title=${searchValue}`)
+        await fetch(`http://localhost:3000/api/items?title=${searchValue}`)
         .then(res => {
             const titles = res.data.items;
             setSuggestions(titles);
