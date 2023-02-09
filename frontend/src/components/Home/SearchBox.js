@@ -31,9 +31,13 @@ const SearchBox = () => {
       
 
     return (
-        <div>
-            <input id="search-box" type="text" class="form-control" placeholder="What is it that you truly desire?" aria-label="search-box" aria-describedby="basic-addon1" value={searchValue} onChange={handleSearchChange}/>
+        <div> 
+          <input id="search-box" type="text" class="form-control" placeholder="What is it that you truly desire?" aria-label="search-box" aria-describedby="basic-addon1" value={searchValue} onChange={handleSearchChange}/>
+          { suggestions.length ? (
             <ItemList items={suggestions}/>
+          ) : (
+            <p id='empty'> No items found for {searchValue} </p>
+          )}
         </div>
     );
 };
