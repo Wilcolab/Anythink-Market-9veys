@@ -11,7 +11,7 @@ const Banner = () => {
           <span>A place to </span>
           <span id="get-part">get</span>
           <SearchBox />
-          <span> the cool stuff. </span>
+          <span> the cool stuff.</span>
         </div>
       </div>
     </div>
