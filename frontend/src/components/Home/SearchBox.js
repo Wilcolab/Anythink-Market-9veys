@@ -5,6 +5,16 @@ const SearchBox = () => {
     const [searchValue, setSearchValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
 
+    let content;
+
+    if (suggestions.length && searchValue) {
+      content = <ItemList items={suggestions}/>
+    } else if (suggestions.length === 0 && searchValue) { 
+      content = <p id='empty'> No items found for {searchValue} </p>
+    } else {
+      content = null;
+    }
+
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
     }
@@ -31,9 +41,9 @@ const SearchBox = () => {
       
 
     return (
-        <div>
-            <input id="search-box" type="text" class="form-control" placeholder="What is it that you truly desire?" aria-label="search-box" aria-describedby="basic-addon1" value={searchValue} onChange={handleSearchChange}/>
-            <ItemList items={suggestions}/>
+        <div> 
+          <input id="search-box" type="text" class="form-control" placeholder="What is it that you truly desire?" aria-label="search-box" aria-describedby="basic-addon1" value={searchValue} onChange={handleSearchChange}/>
+          {content}
         </div>
     );
 };
