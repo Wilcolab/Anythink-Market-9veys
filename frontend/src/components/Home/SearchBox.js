@@ -5,15 +5,14 @@ const SearchBox = () => {
     const [searchValue, setSearchValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
 
-    const emptyDiv = document.getElementById('empty-div')
-    emptyDiv.style.display = 'none';
-
     let content;
 
     if (suggestions.length && searchValue) {
       content = <ItemList items={suggestions}/>
-    } else if (!suggestions.length && searchValue) { 
+    } else if (suggestions.length === 0 && searchValue) { 
       content = <p id='empty'> No items found for {searchValue} </p>
+    } else {
+      content = null;
     }
 
     const handleSearchChange = (event) => {
