@@ -80,7 +80,7 @@ UserSchema.methods.toAuthJSON = function() {
     bio: this.bio,
     image: this.image,
     role: this.role
-  };
+  }; 
 };
 
 UserSchema.methods.toProfileJSONFor = function(user) {
