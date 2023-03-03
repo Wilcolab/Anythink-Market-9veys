@@ -164,7 +164,6 @@ router.get("/:item", auth.optional, function(req, res, next) {
   ])
     .then(function(results) {
       var user = results[0];
-
       return res.json({ item: req.item.toJSONFor(user) });
     })
     .catch(next);
