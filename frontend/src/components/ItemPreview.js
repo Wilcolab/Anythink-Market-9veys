@@ -55,8 +55,8 @@ const ItemPreview = (props) => {
               className="user-pic rounded-circle pr-1"
             />
             {item.seller.isVerified && (
-              <div id="item_verified_seller_item">
-                <img src={process.env.PUBLIC_URL + "/verified_seller.svg"} alt="verified-seller" />
+              <div>
+                <img id="item_verified_seller_item" src={process.env.PUBLIC_URL + "/verified_seller.svg"} alt="verified-seller" />
                 <span style={{ color: 'white' }}>TOP SELLER</span>
               </div>
             )}
